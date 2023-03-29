@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.oracle.oBootHello.domain.Member1;
 
 //Memory를 가지고 CRUD, DB에 연결X 
-@Repository		// 이걸 해야 boot 갖자대면 @4개 나오는데 이 @로 안의 4개를 한번에 처리했다는거
+@Repository		// 이걸 해야 boot 갖자대면 @4개 나오는데 이 @로 안의 4개를 한번에 처리했다는거	/ Component는 어플리케이션컨텍스는 뉴 어풀~ 이거랑 같은거
 public class MemoryMemberRepository implements MemberRepository {
 //						KEY   Value
 	private static Map<Long, Member1> store = new HashMap<Long, Member1>();

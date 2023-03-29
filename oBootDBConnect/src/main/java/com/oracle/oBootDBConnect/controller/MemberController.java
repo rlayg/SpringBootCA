@@ -35,7 +35,7 @@ public class MemberController {
 	@GetMapping(value = "/members/memberForm")
 	public String createMemberForm() {
 		System.out.println("MemberController /members/memberForm Start...");
-		return "members/memberForm";
+		return "members/createMemberForm";
 	}
 	
 	@PostMapping(value = "/members/newSave")

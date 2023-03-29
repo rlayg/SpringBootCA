@@ -42,4 +42,5 @@ public class HelloController {
 		
 		return emp;
 	}	// http://localhost:8301/ajaxEmp?empno=1234&ename=kkk 이런식으로 실행
-}
+	
+}	// End Class

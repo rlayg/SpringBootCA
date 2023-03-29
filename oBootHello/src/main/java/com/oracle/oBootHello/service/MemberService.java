@@ -17,13 +17,10 @@ public class MemberService {
 	
 	// boot방법  DI방법
 	private final MemberRepository memberRepository;
-	@Autowired
+	@Autowired	// getBean이랑 같은거
 	public MemberService(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;
 	}
-	
-	
-	
 	
 	
 	

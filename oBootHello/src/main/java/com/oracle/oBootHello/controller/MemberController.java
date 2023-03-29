@@ -23,6 +23,7 @@ public class MemberController {
 	// 향우 DI방식 적용
 	
 	private final MemberService memberService ;
+	
 	@Autowired
 	public MemberController(MemberService memberService) {
 		this.memberService = memberService;
@@ -67,7 +68,7 @@ public class MemberController {
 		model.addAttribute("memberLists", memberLists);
 		logger.info("memberLists.size() -> {}", memberLists.size());
 		
-		return "/members/memberList";
+		return "members/memberList";
 	}
 	
 }
