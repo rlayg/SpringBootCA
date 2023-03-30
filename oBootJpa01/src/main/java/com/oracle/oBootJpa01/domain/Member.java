@@ -23,7 +23,8 @@ public class Member {		// Member는 객체명
 //	콘솔에 drop table, create table; drop할게 없다면 에러메세지 나옴 신경 ㄴㄴ 
 //	그래서 서버 재시작할때마다 table db도 입력한것 다 지워짐	
 //	create가 드랍하고 재생성해서 개발할때는 상관없는데, 이게 싫거나 배포할때는
-//	spring.jpa.hibernate.ddl-auto=none 이걸로 하기. 만들때는 create 만든 후에는 none으로 해서 해도 돼
+//	spring.jpa.hibernate.ddl-auto=none . 만들때는 create 만든 후에는 none으로 해서 해도 돼 또는 update
+//	spring.jpa.hibernate.ddl-auto=update 이걸로 하기. 여기 수정 변경됫을때 자동으로 update해줌 이게 더 좋을것같데
 //	No identifier 에러가 나면 PK가 없다는것
 	
 	

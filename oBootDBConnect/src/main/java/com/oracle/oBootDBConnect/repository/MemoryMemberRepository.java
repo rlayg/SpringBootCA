@@ -31,7 +31,12 @@ public class MemoryMemberRepository implements MemberRepository {
 	@Override
 	public List<Member1> findAll() {
 		System.out.println("MemoryMemberRepository findAll Start...");
-		return new ArrayList<Member1>(store.values());
+		
+		List<Member1> storeList = null;
+		storeList = new ArrayList<>(store.values());
+		return storeList;	// 이 3줄을 압축한것 -> 밑에 한줄
+		
+//		return new ArrayList<Member1>(store.values()); // 위 3줄을 압축한거
 	}
 
 }

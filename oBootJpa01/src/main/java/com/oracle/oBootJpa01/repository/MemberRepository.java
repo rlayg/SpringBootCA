@@ -10,4 +10,6 @@ public interface MemberRepository {
 	Member memberSave(Member member);
 
 	List<Member> findAllMember();
+
+	List<Member> findByNames(String searchName);
 }

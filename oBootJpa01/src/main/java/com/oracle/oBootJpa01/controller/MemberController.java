@@ -45,4 +45,16 @@ public class MemberController {
 		model.addAttribute("members", memberList);
 		return "members/memberList";
 	}
+	
+//	회원 검색
+	@PostMapping(value = "members/search")
+	public String memberSearch(Member member, Model model) {
+		System.out.println("members/search member.getName() -> " + member.getName());
+		List<Member> memberList = memberService.getListSearchMember(member.getName());
+		System.out.println("/members/search memberList.size() -> " + memberList.size());
+		model.addAttribute("members", memberList);
+		return "members/memberList";
+	}
+	
+	
 }

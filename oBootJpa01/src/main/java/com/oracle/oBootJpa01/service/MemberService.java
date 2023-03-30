@@ -20,7 +20,7 @@ public class MemberService {
 	
 //	회원가입
 	public Long memberSave(Member member) {
-		System.out.println("MemberRepository memberRepository memberSave member -> " + member);
+		System.out.println("MemberRepository memberRepository memberSave member -> " + member);	// 객체인데 toString 걸려서 나올거야 .@Data or @toString or 일일이 쓰기
 		memberRepository.memberSave(member);
 		System.out.println("MemberRepository memberSave After...");
 		return member.getId();
@@ -30,6 +30,15 @@ public class MemberService {
 	public List<Member> getListAllMember() {
 		List<Member> listMember = memberRepository.findAllMember();
 		System.out.println("MemberService getListAllMember listMember.size() -> " + listMember.size());
+		return listMember;
+	}
+
+	public List<Member> getListSearchMember(String searchName) {
+		System.out.println("MemberService getListSearchMember Start...");
+		System.out.println("MemberService getListSearchMember searchName -> " + searchName);
+		List<Member> listMember = memberRepository.findByNames(searchName);
+		System.out.println("MemberService getListSearchMember listMember.size() -> " + listMember.size());
+		
 		return listMember;
 	}
 }
