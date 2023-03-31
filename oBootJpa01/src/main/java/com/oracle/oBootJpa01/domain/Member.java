@@ -13,7 +13,7 @@ import lombok.ToString;
 //@Setter
 //@ToString	//밑의 toString() 만들어줌
 @Data		// @Getter @Setter @ToString 다 처리 / 대신 다른것도 만들어서 쓸대없는 메모리도 먹을 수 있다
-@Entity		//Row라고 생각하래
+@Entity		//Row라고 생각하래 / jpa는 Entity
 @Table(name = "member1")	// Table명 지정	
 public class Member {		// Member는 객체명
 	@Id		// PK 지정

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.oBootJpa01.domain.Member;
+import com.sun.jdi.Method;
 
 @Repository
 public class JpaMemberRepository implements MemberRepository {
@@ -30,6 +31,7 @@ public class JpaMemberRepository implements MemberRepository {
 //	전체조회 로직
 	@Override
 	public List<Member> findAllMember() {
+//		createQuery 자체가 jpa만든 사람이 만든 Method 약속이래 얘 List<Member> 타입으로 돌려줘야 해 Member.class 넣어줘야 함
 		List<Member> memberList = em.createQuery("select m from Member m", Member.class) // Member, Member.class의 Member는 domain의 Member / Member.class는 멤버를 class타입으로 뽑아내겟다
 									.getResultList();	//	List<Member> 의 Member타입이 Member.class, getResultList()이 List
 		System.out.println("JpaMemberRepository findAllMember memberList.size() -> " + memberList.size());
@@ -43,7 +45,7 @@ public class JpaMemberRepository implements MemberRepository {
 		System.out.println("JpaMemberRepository findByNames pname -> " + pname);
 		List<Member> memberList = em.createQuery("select m from Member m where name Like :name", Member.class)
 									.setParameter("name", pname)	// "name"은 위 쿼리문의 name
-									.getResultList();
+									.getResultList();	// 파라미터가 여러개면 .찍고 계속 더 넣으면 된다
 		System.out.println("JpaMemberRepository memberList.size() -> " + memberList.size());
 		return memberList;
 	}

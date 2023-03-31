@@ -23,7 +23,7 @@ public class Team {
 					generator = "team_seq_gen"
 					)
 	private Long	team_id;
-	@Column(name = "teamname")
+	@Column(name = "teamname")	// 안하면 디폴트로 작성
 	private String	name;
 	
 }
