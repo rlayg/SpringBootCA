@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>로그인페이지</h1>
+<div class="container">
+	<!-- SecurityFilterChain Setting으로 Security가 낚아 챔 -->
+	<form action="/login" method="post">
+		<div class="form-group">
+			<label for="username">이	름</label>
+			<input type="text" name="username" placeholder="이름을 입력하세요"><p>
+			<label for="password">password</label>
+			<input type="password" name="password" placeholder="password을 입력하세요"><p>
+		</div>
+		<button type="submit">등록</button>
+	</form><p>
+	<a href="/joinForm">User 신규 생성</a><p>
+</div>	<!-- /container -->
+</body>
+</html>

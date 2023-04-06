@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>JPA Security 회원 등록(ID 자동생성)</h1>
+<div class="container">
+    <form action="/joinProc" method="post">
+              이름(회원코드) : <input type="text" id="username"   name="username"   required="required"><p>
+                               비번 : <input type="text" id="password"   name="password"   placeholder="password 입력하세요"><p>
+             email : <input type="text" id="email"      name="email"      placeholder="email 입력하세요"><p>
+                            권한   : <select  id="role" name="role">
+		            	<option value="ROLE_USER" autofocus="autofocus">일반유저</option>
+		            	<option value="ROLE_MANAGER">관리자</option>
+		            	<option value="ROLE_ADMIN">Admin</option>
+		             </select>
+     
+         <button type="submit">회원가입</button>
+    </form>
+</div> <!-- /container -->
+</body>
+</body>
+</html>

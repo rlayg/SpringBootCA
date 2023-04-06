@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.oBootMybatis01.EmpMapper">
+	
+	<!-- select Count(*) FROM emp; -->
+	<select id="empTotal" resultType="int">
+		select Count(*) FROM emp
+	</select>
+	
+	<!-- resultType="int" 는 Count(*)의 return타입, 여긴 #{}가 없으니 parameterType 가 없는듯-->
+	
+	<select id="condEmpCnt" parameterType="Emp" resultType="int">
+		select Count(*) FROM emp
+		WHERE
+		<choose>
+			<when test="search == 's_job'">
+				job like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 's_ename'">
+				ename like '%' || #{keyword} || '%'
+			</when>		
+			<otherwise>
+				job	like '%'
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<!-- 
+	select * from 
+    (
+    select rownum rn, a.*
+    FROM
+        (select * from emp order by empno) a
+        )
+	WHERE rn BETWEEN 1 and 10;
+	 -->
+	 <!-- tkEmpListAll2가 원본 -->
+	<select id="tkEmpListAll2" parameterType="Emp" resultType="Emp">
+		SELECT *
+		FROM 
+	    (
+		    SELECT rownum rn, a.*
+		    FROM
+		        (select * from emp order by empno) a
+	        )
+		WHERE rn BETWEEN #{start} and #{end} 
+	<!-- 여기는 ; 넣지마 순수 SQL만 와야해 -->
+	</select>
+	
+	<!-- tkEmpListAll2를 수정한것 -->
+	<select id="tkEmpListAll" parameterType="Emp" resultType="Emp">
+	<![CDATA[
+		SELECT *
+		FROM 
+	    (
+		    SELECT rownum rn, a.*
+		    FROM
+		        (select * from emp order by empno) a
+	        )
+		WHERE rn >= #{start} 
+		and   rn <= #{end}
+	]]> 
+	</select>  <!-- 쓰면 error가 난다 => 크같다 작같다할때 <를 태그로 인식해서 에러남 , CDATA 써서 해결-->
+	
+	<!-- DAO 끝나고 여기 -->
+	<select id="tkEmpSelOne" parameterType="int" resultType="Emp">
+		SELECT * FROM emp WHERE empno = #{empno}
+	</select>
+	<!-- parameterType="int"에 여러개면 int에 dto를 넣어 -->
+
+
+
+
+	<update id="tkEmpUpdate" parameterType="Emp">
+		UPDATE emp SET ename=#{ename}, job=#{job}, mgr=#{mgr}, sal=#{sal}, 
+					   hiredate=#{hiredate},
+					   <if test="#{comm}!=null"> comm=#{comm}, </if>
+					   deptno=#{deptno} 
+		WHERE empno=#{empno}
+	</update>
+	
+	<select id="tkSelectManager" resultType="Emp">
+		SELECT *
+		FROM emp
+		WHERE empno in (select mgr from emp)
+	
+	<!-- resultType="Emp" 는 SELECT * 의 return타입, parameterType="Emp"는 dao에서 오는 것인지 확인  -->
+	</select>
+
+	<insert id="InsertEmp" parameterType="Emp" > 	<!-- parameterType 가 객체면 getter를 불러 -> field명이랑 맞춰줘야해, 근데 int면 #{}안에 달라도 된다-->
+		INSERT INTO <!-- emp  -->
+		emp(empno, ename, job, mgr, hiredate, sal, comm, deptno) <!-- 여기 컬럼명 넣어도 되고 안넣어도 되는데 안넣으면 스키마 정의된 순서대로 values에 넣어야함 --> 
+		VALUES(#{empno}, #{ename}, #{job}, #{mgr}, #{hiredate}, #{sal}, #{comm}, #{deptno}) 
+	
+	</insert>
+
+	<delete id="DeleteEmp" parameterType="int">
+	DELETE FROM emp WHERE empno = #{empno}
+	
+	</delete>
+	
+	<select id="tkEmpSearchList3" parameterType="Emp" resultType="Emp">
+	<!-- parameterType에 search 2개가 들어와 - otherwise
+	동적 sql job이면 job거 ename이면 ename거 -->
+		SELECT *
+		FROM
+		(
+			SELECT rownum rn, a.*
+			FROM
+					(SELECT * FROM emp order by empno) a
+		)
+		WHERE rn BETWEEN #{start} and #{end}
+		<choose>
+			<when test="search == 's_job'">
+				AND job like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 's_ename'">
+				AND ename like '%' || #{keyword} || '%'
+			</when>		
+			<otherwise>
+				AND job	like '%'
+			</otherwise>
+		</choose>
+	
+	</select>
+
+</mapper>

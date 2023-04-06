@@ -32,7 +32,7 @@ public class MemberService {
 		System.out.println("MemberService getListAllMember listMember.size() -> " + listMember.size());
 		return listMember;
 	}
-
+	
 	public Member findByMember(Long memberId) {
 		Member member1 = memberRepository.findByMember(memberId);
 		System.out.println("MemberService findByMember member1.getId() -> " + member1.getId());
@@ -41,7 +41,7 @@ public class MemberService {
 		
 		return member1;
 	}
-
+	
 	public void memberUpdate(Member member) {
 		System.out.println("memberService memberUpdate member.getName() -> " + member.getName());
 		System.out.println("memberService memberUpdate member.getTeamname() -> " + member.getTeamname());
@@ -50,7 +50,7 @@ public class MemberService {
 		return;
 		
 	}
-
+	
 	public List<Member> getListSearchMember(String searchName) {
 		System.out.println("memberService getListSearchMember Start...");
 //		String pSearchName = searchName + '%';
@@ -59,7 +59,7 @@ public class MemberService {
 		System.out.println("memberService getListSearchMember listMember.size() -> " + listMember.size());
 		return listMember;
 	}
-
+	
 	public List<Member> getListFindByMembers(Member member) {
 		List<Member> listMember = memberRepository.findByMembers(member.getId(), member.getSal());
 		System.out.println("memberService getListFindByMembers listMember.size() -> " + listMember.size());
