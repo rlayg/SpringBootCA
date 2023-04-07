@@ -40,8 +40,8 @@ spring:
     properties:
       mail:
         smtp:
-          auth: true
-          starttls.enable: true
+          auth: true  # 오돌라이제이션 인증할거냐
+          starttls.enable: true  # 소캣 시큐어 레이어 암호화할거냐
           
 # Mybatis
 mybatis:

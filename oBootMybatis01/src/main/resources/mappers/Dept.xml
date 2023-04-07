@@ -7,6 +7,42 @@
 		SELECT * FROM dept
 	</select>
 
+	<resultMap type="Dept" id="DeptResult">
+		<result property="deptno" column="deptno"/>
+		<result property="dname" column="dname"/>
+		<result property="loc" column="loc"/>
+		<!-- property는 뽑아서 쓸 때, 객체의 이름 / column은 DB안의 이름 / column을 rename햇다 생각-->
+	</resultMap>
 
-
+	<!-- procedure 호출 -->
+	<select id="procDeptInsert" parameterType="DeptVO" statementType="CALLABLE">
+    {
+    	call Dept_Insert3(
+    		 #{deptno,    mode=IN    , jdbcType=INTEGER}
+ 	   		,#{dname    , mode=IN    , jdbcType=VARCHAR}
+	  		,#{loc      , mode=IN    , jdbcType=VARCHAR}
+	  		,#{odeptno  , mode=OUT   , jdbcType=INTEGER}
+	  		,#{odname   , mode=OUT   , jdbcType=VARCHAR}
+	  		,#{oloc     , mode=OUT   , jdbcType=VARCHAR}
+    	)
+    }
+   </select>
+   
+<!--    statementType="CALLABLE" : 이것은 이 쿼리가 호출 가능한 쿼리임을 나타낸다 
+      호출 가능한 SQL 구문을 나타내는 {call ...} 구문을 사용 -->
+   <select id="procDeptList" parameterType="java.util.Map" statementType="CALLABLE">
+   {
+   		call Dept_Cursor3(
+   			  #{sDeptno, mode=IN , jdbcType=INTEGER},
+   			  #{eDeptno, mode=IN , jdbcType=INTEGER},
+   			  #{dept   , mode=OUT, jdbcType=CURSOR,	javaType=java.sql.ResultSet, resultMap=DeptResult}
+   			)
+   }
+   </select>
+   
+   
+   
+   
+   
+   
 </mapper>

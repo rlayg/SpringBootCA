@@ -110,21 +110,23 @@
 		(
 			SELECT rownum rn, a.*
 			FROM
-					(SELECT * FROM emp order by empno) a
+				(SELECT * FROM emp
+					<choose>
+						<when test="search == 's_job'">
+							WHERE job like '%' || #{keyword} || '%'
+						</when>
+						<when test="search == 's_ename'">
+							WHERE ename like '%' || #{keyword} || '%'
+						</when>		
+						<otherwise>
+							WHERE job	like '%'
+						</otherwise>
+					</choose>
+					order by empno) a
+				
 		)
 		WHERE rn BETWEEN #{start} and #{end}
-		<choose>
-			<when test="search == 's_job'">
-				AND job like '%' || #{keyword} || '%'
-			</when>
-			<when test="search == 's_ename'">
-				AND ename like '%' || #{keyword} || '%'
-			</when>		
-			<otherwise>
-				AND job	like '%'
-			</otherwise>
-		</choose>
-	
+		
 	</select>
 
 </mapper>

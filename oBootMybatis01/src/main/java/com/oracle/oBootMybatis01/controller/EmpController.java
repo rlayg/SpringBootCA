@@ -1,10 +1,18 @@
 package com.oracle.oBootMybatis01.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +22,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oracle.oBootMybatis01.model.Dept;
+import com.oracle.oBootMybatis01.model.DeptVO;
 import com.oracle.oBootMybatis01.model.Emp;
+import com.oracle.oBootMybatis01.model.EmpDept;
 import com.oracle.oBootMybatis01.service.EmpService;
 import com.oracle.oBootMybatis01.service.Paging;
 
@@ -26,8 +36,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class EmpController {
 	
-	@Autowired
+	@Autowired  // 이거 안함 선생님은 성태씨도
 	private final EmpService es;
+	private final JavaMailSender mailSender; // 메일 보내주는애
 	
 	/*
 	private final EmpService es;는 EmpService 객체를 생성하는 것이 아니라, 이미 생성된 EmpService 객체를 참조하기 위한 필드 선언 코드입니다.
@@ -191,7 +202,7 @@ public class EmpController {
 		System.out.println("EmpController writeEmp3 Start...");
 		
 //		Validation 오류시 Result
-		if(result.hasErrors()) {
+		if(result.hasErrors()) {	// BindingResult를 걸어서 hasErrors를 가져올 수 있어 
 			System.out.println("EmpController writeEmp3 hasErrors...");
 			model.addAttribute("msg", "BindingResult 입력 실패 확인해 보세요");
 			return "forward:writeFormEmp3";
@@ -235,6 +246,7 @@ public class EmpController {
 		
 	}
 	
+//	검색시 전체페이지 X 나온 글 개수만큼 페이지 출력
 	@RequestMapping(value = "listSearch3")
 	public String listSearch3(Emp emp, String currentPage, Model model) {
 		System.out.println("EmpController listSearch3 listEmp Start...");
@@ -255,6 +267,99 @@ public class EmpController {
 		model.addAttribute("page", page);
 		
 		return "list";
+	}
+	
+	@GetMapping(value = "listEmpDept")
+	public String listEmpDept(Model model) {
+		System.out.println("EmpController listEmpDept Start...");
+// 		Service , DAO(ed) -> listEmpDept
+// 		Mapper만 ->tkListEmpDept
+		List<EmpDept> listEmpDept = es.listEmpDept();
+		model.addAttribute("listEmpDept", listEmpDept);
+		return "listEmpDept";
+		
+	}
+	
+//	보안인증때문에 확인 불가 코드는 문제없데
+	@RequestMapping(value = "mailTransport")
+	public String mailTransport(HttpServletRequest request, Model model) {
+		System.out.println("EmpController mailTransport Start...");
+		String tomail = "rlayg1992@naver.com";	// 받는 사람 메일
+		System.out.println(tomail);
+		String setfrom = "rlamail1992@gmail.com";
+		String title = "mailTransprot 입니다";	// 제목
+		
+		try {
+//			Mime 전자우편 Internet 표준 Format - Mime = 다목적인터넷메일익스텐션
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setFrom(setfrom);		// 보낸 사람 생략하거나 하면 정상작동을 안함
+			messageHelper.setTo(tomail);		// 받는사람 이메일
+			messageHelper.setSubject(title);	// 메일제목은 생략이 가능하다
+			String tempPassword = (int) (Math.random() * 999999) + 1 + "";	
+			messageHelper.setText("임시 비밀번호입니다" + tempPassword);	// 메일 내용
+			System.out.println("임시 비밀번호입니다" + tempPassword);
+			DataSource dataSource = new FileDataSource("c:\\log\\hwa.png");  // DataSource 첨부문서를 보낼 수 있다고 보여주는거
+			messageHelper.addAttachment(MimeUtility.encodeText("hwa.png", "UTF-8", "B"), dataSource);
+			
+			mailSender.send(message);
+			model.addAttribute("check", 1);		// 정상 전달
+//			DB tempPassword Logic 구성
+		} catch (Exception e) {
+			System.out.println("메일 전달 실패 EmpController mailTransport e.getMessage() -> " + e.getMessage());
+			model.addAttribute("check", 2);		// 메일 전달 실패
+		}
+		
+		return "mailResult";
+	}
+	
+//	Procedure Test 입력화면
+	@RequestMapping(value = "writeDeptIn")
+	public String writeDeptIn(Model model) {
+		System.out.println("EmpController writeDeptIn() Start.... ");
+		
+		
+		
+		return "writeDept3";
+	}
+	
+//	Procedure 통한 Dept 입력후 VO 전달
+	@PostMapping(value = "writeDept")
+	public String writeDept(DeptVO deptVO, Model model) {
+		es.insertDept(deptVO);
+		if(deptVO == null) {
+			System.out.println("deptVO NULL");
+		} else {
+			System.out.println("deptVO.getOdeptno() -> " + deptVO.getOdeptno());
+			System.out.println("deptVO.getOdname() -> " + deptVO.getOdname());
+			System.out.println("deptVO.getOloc() -> " + deptVO.getOloc());
+			model.addAttribute("msg", "정상 입력 되었습니다");
+			model.addAttribute("dept", deptVO);
+		}
+		return "writeDept3";
+	}
+	
+//	Map 적용
+	@GetMapping(value = "writeDeptCursor")
+	public String writeDeptCursor(Model model) {
+		System.out.println("EmpController writeDeptCursor Start..."); 
+//		부서범위 조회
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("sDeptno", 10);
+		map.put("eDeptno", 55);
+		
+		es.selListDept(map);
+		List<Dept> deptLists = (List<Dept>) map.get("dept");
+		for(Dept dept : deptLists) {
+			System.out.println("dept.getDname -> " + dept.getDname());
+			System.out.println("dept.getLoc -> " + dept.getLoc());
+		}
+		System.out.println("deptList Size -> " + deptLists.size());
+		model.addAttribute("deptList", deptLists);
+		
+		return "writeDeptCursor";
+		
 	}
 	
 }

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.oBootMybatis01.model.Emp;
+import com.oracle.oBootMybatis01.model.EmpDept;
 
 import lombok.RequiredArgsConstructor;
 
@@ -105,6 +106,7 @@ public class EmpDaoImpl implements EmpDao {
 		System.out.println("EmpDaoImpl deleteEmp() Start... ");
 		try {
 			result = session.delete("DeleteEmp", empno);
+			System.out.println("EmpDaoImpl deleteEmp() result -> " + result);
 		} catch (Exception e) {
 			System.out.println("EmpDaoImpl deleteEmp() Exception -> " + e.getMessage());
 		}
@@ -137,6 +139,20 @@ public class EmpDaoImpl implements EmpDao {
 			System.out.println("EmpDaoImpl totalEmp Exception -> " + e.getMessage()); // 익셉션 반드시 걸어주기
 		}
 		return conditionEmpCount;	// service에 total 넘어갈거야
+	}
+
+	@Override
+	public List<EmpDept> listEmpDept() {
+		System.out.println("EmpDaoImpl listEmpDept() Start...");
+		List<EmpDept> empDept = null;
+		try {
+			empDept = session.selectList("tkEmpDeptList");
+			System.out.println("EmpDaoImpl listEmpDept() empDept.size() -> " + empDept.size());
+		} catch (Exception e) {
+			System.out.println("EmpDaoImpl listEmpDept() Exception -> " + e.getMessage());
+		}
+		
+		return empDept;
 	}	
-	// session에서 mapper Emp.xml로 가자
+	// session에서 mapper .xml로 가자
 }

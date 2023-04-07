@@ -3,6 +3,7 @@ package com.oracle.oBootMybatis01.dao;
 import java.util.List;
 
 import com.oracle.oBootMybatis01.model.Emp;
+import com.oracle.oBootMybatis01.model.EmpDept;
 
 public interface EmpDao {
 	int	totalEmp();
@@ -14,5 +15,6 @@ public interface EmpDao {
 	int deleteEmp(int empno);
 	List<Emp> empSearchList3(Emp emp);
 	int condEmpCnt(Emp emp);
+	List<EmpDept> listEmpDept();
 	
 }
