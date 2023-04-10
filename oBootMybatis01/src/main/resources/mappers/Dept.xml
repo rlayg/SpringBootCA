@@ -17,7 +17,7 @@
 	<!-- procedure 호출 -->
 	<select id="procDeptInsert" parameterType="DeptVO" statementType="CALLABLE">
     {
-    	call Dept_Insert3(
+    	call Dept_Insert3(	<!-- 값이 들어갈 애라 IN, 나올애는 OUT -->
     		 #{deptno,    mode=IN    , jdbcType=INTEGER}
  	   		,#{dname    , mode=IN    , jdbcType=VARCHAR}
 	  		,#{loc      , mode=IN    , jdbcType=VARCHAR}

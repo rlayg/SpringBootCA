@@ -18,7 +18,7 @@ spring:
   # Jpa Setting****
   jpa: 
     hibernate:
-      ddl-auto: update  # create update none 
+      ddl-auto: none  # create update none 
     properties:
       hibernate:
         default_batch_fetch_size: 500
@@ -36,7 +36,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: rlamail1992@gmail.com
-    password: 
+    password: jsyzzpijejpwkxol  # 앱비밀번호 설정해야함
     properties:
       mail:
         smtp:

@@ -20,13 +20,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.oracle.oBootMybatis01.model.Dept;
 import com.oracle.oBootMybatis01.model.DeptVO;
 import com.oracle.oBootMybatis01.model.Emp;
 import com.oracle.oBootMybatis01.model.EmpDept;
+import com.oracle.oBootMybatis01.model.Member1;
 import com.oracle.oBootMybatis01.service.EmpService;
 import com.oracle.oBootMybatis01.service.Paging;
+import com.oracle.oBootMybatis01.service.SampleInterCeptor;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -317,9 +320,6 @@ public class EmpController {
 	@RequestMapping(value = "writeDeptIn")
 	public String writeDeptIn(Model model) {
 		System.out.println("EmpController writeDeptIn() Start.... ");
-		
-		
-		
 		return "writeDept3";
 	}
 	
@@ -339,7 +339,7 @@ public class EmpController {
 		return "writeDept3";
 	}
 	
-//	Map 적용
+//	Map 적용 - Parameter Map방식 2023-04-10 메모장 참고
 	@GetMapping(value = "writeDeptCursor")
 	public String writeDeptCursor(Model model) {
 		System.out.println("EmpController writeDeptCursor Start..."); 
@@ -360,6 +360,54 @@ public class EmpController {
 		
 		return "writeDeptCursor";
 		
+	}
+	
+//	interCeptor 시작 화면
+	@RequestMapping(value = "interCeptorForm")
+	public String interCeptorForm(Model model) {
+		System.out.println("EmpController interCeptorForm Start...");
+		return "interCeptorForm";
+	}
+	
+//	2.interCeptor Number 2
+	@RequestMapping(value = "interCeptor")
+	public String interCeptor(String id, Model model) {
+		System.out.println("EmpController interCeptor Test Start...");
+		System.out.println("EmpController interCeptor id -> " + id);
+//		존재 : 1 , 비존재 : 0
+		int memCnt = es.memCount(id);
+		
+		System.out.println("EmpController interCeptor memCnt -> " + memCnt);
+		
+		model.addAttribute("id", id);
+		model.addAttribute("memCnt", memCnt);
+		System.out.println("EmpController interCeptor Test End");
+		
+		return "interCeptor";	// User 존재하면 User 이용 조회 Page
+		
+	}
+	
+//	SampleInterCeptor 내용을 받아 처리
+	@RequestMapping(value = "doMemberWrite", method = RequestMethod.GET)
+	public String doMemberWrite(Model model, HttpServletRequest request) {
+		String ID = (String) request.getSession().getAttribute("ID");
+		System.out.println("doMemberWrite 부터 작성하세요");
+		model.addAttribute("id", ID);
+		return "doMemberWrite";
+		
+	}
+	
+//	interCeptor 진행 Test
+	@RequestMapping(value = "doMemberList")
+	public String doMemberList(Model model, HttpServletRequest request) {
+		String ID = (String) request.getSession().getAttribute("ID");
+		System.out.println("doMemberList Test Start... Id -> " + ID);
+		Member1 member1 = null;
+//		Member1 List Get Service
+		List<Member1> listMem = es.listMem(member1);
+		model.addAttribute("ID", ID);
+		model.addAttribute("listMem", listMem);
+		return "doMemberList";
 	}
 	
 }
