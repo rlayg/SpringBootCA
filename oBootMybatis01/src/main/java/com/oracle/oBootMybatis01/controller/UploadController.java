@@ -70,10 +70,44 @@ public class UploadController {
 		File target = new File(uploadPath, savedName);
 //		File target = new File(requestPath, savaName);
 //		File UpLoad ---> uploadPath / UUID +_+ originalName
-		FileCopyUtils.copy(fileData, target);	// org.springframeword.util.FileCopyUtils
+		FileCopyUtils.copy(fileData, target);	// org.springframeword.util.FileCopyUtils	/	boot에서 이걸 쓰는걸 권장
 		
 		return savedName;
 		
+	}
+	
+//	이미지 삭제
+	@RequestMapping(value = "uploadFileDelete", method = RequestMethod.GET)
+	public String uploadFileDelete(HttpServletRequest request, Model model) {
+		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
+		String deleteFile = uploadPath + "b9aaa9d4-3959-4ec6-9cbb-88e5d7516f63_nav2.png";	// 확장자도 꼭 써줘야함 / 여기는 이미지 삽입된 경로에서 파일명 찾아서 넣기
+		log.info("deleteFile : " + deleteFile);
+		System.out.println("uploadFileDelete GET Start...");
+		int delResult = uploadFileDelete(deleteFile);
+		log.info("deleteFile result -> " + delResult);
+		model.addAttribute("deleteFile", deleteFile);
+		model.addAttribute("delResult", delResult);
+		return "uploadDelResult";
+	}
+
+	private int uploadFileDelete(String deleteFileName) {
+		int result = 0;
+		log.info("upFileDelte result -> " + deleteFileName);
+		File file = new File(deleteFileName);
+		if(file.exists()) {
+			if(file.delete()) {
+				System.out.println("파일삭제 성공");
+				result = 1;
+			} else {
+				System.out.println("파일삭제 실패");
+				result = 0;
+			}
+		} else {
+			System.out.println("파일이 존재하지 않습니다");
+			result = -1;
+		}
+		
+		return result;
 	}
 	
 }

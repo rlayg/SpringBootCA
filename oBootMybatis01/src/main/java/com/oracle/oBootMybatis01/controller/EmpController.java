@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.oBootMybatis01.model.Dept;
 import com.oracle.oBootMybatis01.model.DeptVO;
@@ -401,13 +402,63 @@ public class EmpController {
 	@RequestMapping(value = "doMemberList")
 	public String doMemberList(Model model, HttpServletRequest request) {
 		String ID = (String) request.getSession().getAttribute("ID");
-		System.out.println("doMemberList Test Start... Id -> " + ID);
+		System.out.println("EmpController doMemberList Test Start... Id -> " + ID);
 		Member1 member1 = null;
 //		Member1 List Get Service
 		List<Member1> listMem = es.listMem(member1);
 		model.addAttribute("ID", ID);
 		model.addAttribute("listMem", listMem);
 		return "doMemberList";
+	}
+	
+//	=================== 이 밑부터 Ajax ===================
+	
+//	ajaxForm Test 입력화면
+	@RequestMapping(value = "ajaxForm")
+	public String ajaxForm(Model model) {
+		System.out.println("ajaxForm Start...");
+		return "ajaxForm";
+	}
+	
+//	일반 Controller에 Ajax 하려고 해
+	@ResponseBody	// @ResponseBody는 나 호출한 놈의 몸에 들어가는거
+	@RequestMapping(value = "getDeptName")
+	public String getDeptName(int deptno, Model model) {
+		System.out.println("deptno -> " + deptno);
+		String	deptName = es.deptName(deptno);
+		System.out.println("deptName -> " + deptName);
+		return	deptName;	// 나 호출한 놈의 몸에 들어가는거
+		
+	}
+	
+	
+//	Ajax List Test
+	@RequestMapping(value = "listEmpAjaxForm")
+	public String listEmpAjaxForm(Model model) {
+		Emp emp = new Emp();
+		System.out.println("Ajax List Test Start...");
+//		Parameter emp --> Page만 추가 Setting
+		emp.setStart(1);	// 시작시 1
+		emp.setEnd(10);		// 시작시 10
+		
+		List<Emp> listEmp = es.listEmp(emp);
+		System.out.println("EmpController listEmpAjaxForm() listEmp.size() -> " + listEmp.size());
+		model.addAttribute("result", "kkk");
+		model.addAttribute("listEmp", listEmp);
+		return "listEmpAjaxForm";
+	}
+	
+	@RequestMapping(value = "listEmpAjaxForm2")
+	public String listEmpAjaxForm2(Model model) {
+		System.out.println("EmpController listEmpAjaxForm2 Start...");
+		Emp emp = new Emp();
+		System.out.println("Ajax List Test Start...");
+//		Parameterer emp --> Page만 추가 Setting
+		emp.setStart(1);	// 시작시 1
+		emp.setEnd(15);		// 시작시 15
+		List<Emp> listEmp = es.listEmp(emp);
+		model.addAttribute("listEmp", listEmp);
+		return "listEmpAjaxForm2";
 	}
 	
 }

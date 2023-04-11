@@ -16,5 +16,6 @@ public interface EmpDao {
 	List<Emp> empSearchList3(Emp emp);
 	int condEmpCnt(Emp emp);
 	List<EmpDept> listEmpDept();
+	String deptName(int deptno);
 	
 }

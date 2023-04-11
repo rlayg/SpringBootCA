@@ -80,7 +80,7 @@ public class EmpServiceImpl implements EmpService {
 		System.out.println("EmpServiceImpl listEmp empList.size() ->" + empList.size());
 		return empList;
 	}
-/*
+
 	@Override
 	public List<Dept> deptSelect() {
 		List<Dept> deptList = null;
@@ -89,13 +89,15 @@ public class EmpServiceImpl implements EmpService {
 		System.out.println("EmpServiceImpl deptSelect() deptList.size -> " + deptList.size());
 		return deptList;
 	}
-*/
+
+	/*
 	@Override
 	public List<Dept> deptSelect() {
 		log.info("[deptSelect]");
 		return dd.deptSelect();
 	}
-
+	*/
+	
 	@Override
 	public int insertEmp(Emp emp) {
 		int result = 0;
@@ -169,6 +171,13 @@ public class EmpServiceImpl implements EmpService {
 		System.out.println("EmpServiceImpl listMem Start...");
 		return md.listMem(member1);
 	
+	}
+
+//	Ajax EmpController에서 온거 
+	@Override
+	public String deptName(int deptno) {
+		System.out.println("EmpServiceImpl deptName Start...");
+		return ed.deptName(deptno);
 	}
 	
 }

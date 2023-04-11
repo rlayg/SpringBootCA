@@ -9,7 +9,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 // och06_AOP3
-@Aspect
+@Aspect	// 핵심관심사와 종단관심사를 이어주는애 
 @Component
 public class LogAop {
 	

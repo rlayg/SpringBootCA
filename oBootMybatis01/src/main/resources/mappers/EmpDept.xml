@@ -6,8 +6,16 @@
 	<select id="tkEmpDeptList" resultType="EmpDept">
 		SELECT e.empno, e.ename, e.job, d.deptno, d.loc
 		FROM emp e, dept d
-		where e.deptno = d.deptno
+		WHERE e.deptno = d.deptno
 		order by empno
+	</select>
+	
+	<select id="tkDeptName" parameterType="int" resultType="java.lang.String">
+		SELECT  dname
+		FROM	dept
+		WHERE	deptno = #{deptNo}
+		
+	
 	</select>
 	
 </mapper>
