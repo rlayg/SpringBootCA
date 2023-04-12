@@ -35,8 +35,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: rlamail1992@gmail.com
-    password: jsyzzpijejpwkxol  # 앱비밀번호 설정해야함
+    username: 
+    password:   # 앱비밀번호 설정해야함
     properties:
       mail:
         smtp:

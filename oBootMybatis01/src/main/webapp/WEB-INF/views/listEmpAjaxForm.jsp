@@ -18,7 +18,7 @@
 		// 행동강령 : Ajax로 부서번호 보내고 부서명 받음
 		$.ajax(
 				{
-					/* context 위치 안잃어버리게 넣어준거 */
+					/* context 위치 안잃어버리게 넣어준거  url, data는 불러주는 값, dataType, success는 결과값*/
 					url:"<%=context%>/getDeptName",		
 					data:{deptno : vDeptno},
 					dataType:'text',

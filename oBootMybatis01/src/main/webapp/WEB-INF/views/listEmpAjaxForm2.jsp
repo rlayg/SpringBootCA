@@ -21,7 +21,7 @@
 				url:"/sendVO3",
 				dataType:'json',
 				success:function(deptList){
-					/* stringify -> String으로 바꾸는거야 */
+					/* stringify -> json으로 온 애를 String으로 바꾸는거야 */
 					var jsonStr = JSON.stringify(deptList);
 					//alert("jsonStr->" + jsonStr);
 					$('#dept_list_str').append(jsonStr);
@@ -84,7 +84,7 @@
 <table>
 	<tr><th>번호</th><th>사번</th><th>이름</th><th>업무</th><th>부서</th><th>근무지</th></tr>
 	<c:forEach var="emp" items="${listEmp}" varStatus="status">
-		<tr id="emp${status.index}"><td>emp${status.index}</td>
+		<tr id="emp${status.index}"><td>emp${status.index}</td> <!-- status.index 이걸 쓰려면 varStatus="status" 이걸 걸어야한다 -->
 	     	
 		    <td>
 		        <input type="hidden" id="deptno${status.index}" value="${emp.deptno }">

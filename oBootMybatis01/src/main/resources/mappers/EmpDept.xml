@@ -14,8 +14,6 @@
 		SELECT  dname
 		FROM	dept
 		WHERE	deptno = #{deptNo}
-		
-	
 	</select>
 	
 </mapper>

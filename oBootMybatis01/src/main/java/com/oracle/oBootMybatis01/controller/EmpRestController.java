@@ -23,7 +23,7 @@ public class EmpRestController {
 		System.out.println("EmpRestController Start...");
 		String hello = "안녕";
 //					StringConverter
-		return	hello;
+		return	hello;	// 나를 호출한 놈 안에 이 응답을 집어넣겟다
 	}
 	
 	@RequestMapping("/sample/sendVO2")
