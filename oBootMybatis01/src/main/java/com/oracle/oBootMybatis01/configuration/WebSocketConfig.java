@@ -18,6 +18,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+		// 소켓에서는 socketHandler가 Server역할
 		// 누군가  URL /chating --> socketHandler 발동
 		registry.addHandler(socketHandler, "/chatting");	// chating을 치면 socketHandler을 서버프로그램으로 발동시키겟다
 		
