@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="/js/jquery.js"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<style type="text/css">
+		
+	.navigation-menu ul {
+	  padding: 10px;
+	  margin-left: 15%;
+	  margin-right: 15%;
+	  margin-bottom: 20px;
+	  font-weight: bold;
+	}
+	.navigation-menu ul {   
+	    padding: 0;
+	    overflow: hidden;
+	    background-color: #4B4B4B;
+	    text-align: center;
+	}
+	.navigation-menu li a {
+	    display: inline-block;
+	    color: white;
+	    text-align: center;
+	    padding: 10px 20px;
+	    text-decoration: none;
+	}
+	
+	li a:hover {
+	    text-decoration: underline;
+	}
+	
+	#navigation ul
+	{
+		font-size: 1.2em;
+	}
+	#navigation ul li
+	{
+	    display: inline;
+		color:white;
+	}
+	#navigation li:not(:first-child):before {
+	    content: " | ";
+	}
+	
+	
+	
+	
+	
+	
+	
+	.d-grid{
+		margin-right: 15%;
+	
+	}
+	
+	
+	
+	/* 충전컨테이너 */
+	.charge-container {
+		/* width: 960px;
+		margin: 0 auto;
+		padding: 20px; */
+		
+		display: flex;
+	    align-items: baseline;
+	    gap: 32px;
+	    padding: 48px 0;
+	    margin-left: 15%;
+	    margin-right: 15%;
+	    
+	    
+	}
+	
+	/* #charge-container * {
+	  background-color: gray;
+	} */
+	
+	/* 결제내역 컨테이너 */
+	.recharge-history-container {
+		/* width: 960px;
+		margin: 0 auto;
+		padding: 20px; */
+		
+		display: flex;
+	    align-items: baseline;
+	    gap: 32px;
+	    padding: 48px 0;
+	    margin-left: 15%;
+	    margin-right: 15%;
+	    
+	    
+	}
+	
+	
+	
+	/* 충전컨텐츠 */
+	#charge-contents {
+	 	/* border : 1px solid;
+		width: 490px;
+		float: left;
+		margin-left: 15%;
+		margin-bottom: 20px;  */
+		
+		flex: 3;
+		/* background: white; */
+		padding: 32px;
+		border-radius: 16px 0 0 16px;
+		
+		
+	}
+	
+	/* 오른쪽 사이드바 */
+	#right-sidebar {
+	/* border : 1px solid;
+		width: 150px;
+		float: right;
+		margin-bottom: 20px; */
+		
+		flex: 1;
+		/*  background: white; */
+		padding: 24px;
+		border-radius: 0 16px 16px 0;
+	}	
+	li{
+		list-style: none;
+	}	
+	/* 테이블 크기조절 */
+	/*   .table {
+    width: 50%;
+    margin: 0 auto;
+    border-collapse: collapse;
+	}
+	
+	.table th, .table td {
+	  text-align: center;
+	  padding: 8px;
+	  border: 1px solid #ddd;
+	}
+	
+	.table th {
+	  background-color: #f2f2f2;
+	}
+	
+	.table-group-divider tr:not(:first-child) {
+	  border-top: 1px solid #ddd;
+	}  */
+	
+	
+	/* 쿠폰중복 */	
+		
+	.input-side {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: flex-start;
+	  margin-top: 5%;
+	  margin-left: 30%;
+	}
+	
+	#coupon-no,
+	#check-coupon {
+	  margin-left: auto;
+	}
+	
+	
+	/* 충전방법  radio css */
+	.payment-method {
+    padding: 15px 10px;
+    text-align: center;
+	}
+	.payment-method input[type=radio]{
+	    display: none;
+	}
+	.payment-method input[type=radio]+label{
+	    display: inline-block;
+	    cursor: pointer;
+	    height: 24px;
+	    width: 90px;
+	    border: 1px solid #333;
+	    line-height: 24px;
+	    text-align: center;
+	    font-weight:bold;
+	    font-size:13px;
+	}
+	.payment-method input[type=radio]+label{
+	    background-color: #fff;
+	    color: #333;
+	}
+	.payment-method input[type=radio]:checked+label{
+	    background-color: #333;
+	    color: #fff;
+	}
+		
+	/* table {
+    border-collapse: collapse;
+    width: 100%; */
+    
+	 }
+	 
+	 th, td {
+	   border: 1px solid black;
+	   text-align: left;
+	   padding: 8px;
+	 }
+	 
+	 th {
+	   background-color: #cccccc;
+	 }
+  
+	.table {
+    width: 50%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    }
+    
+    .table th, .table td {
+    text-align: center;
+    padding: 8px;
+    /* border: 1px solid #ddd; */
+   }
+	  
+</style>
+
+
+</head>
+<body>
+	
+	<div class="navigation-menu">
+		<nav id="navigation">
+		  <ul>
+		    <li><a href="/sell">재능판매</a></li>
+		    <li><a href="/purchase">재능구매</a></li>
+		    <li><a href="/trade">거래관리</a></li>
+		    <li><a href="/charge">충전/내역</a></li>
+		    <li><a href="/myPage">마이페이지</a></li>
+		  </ul>
+		</nav>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 충전, 결제내역 필터 버튼 -->
+	<div class="d-grid gap-2 d-md-flex justify-content-md-end" >
+	  <button class="btn btn-primary me-md-2" type="button">예비버튼</button>
+	  <button class="btn btn-primary" type="button">예비버튼</button>
+	  <button type="button" class="btn btn-secondary btn-lg">예비버튼</button>
+	  <button type="button" class="btn btn-secondary btn-sm">충전하기</button>
+	  <button type="button" class="btn btn-secondary btn-sm">결제내역</button>
+	</div>
+	
+	<!-- <div id="charge-container"> -->
+	<div class="charge-container">
+	
+		<div id="charge-contents">
+				
+			<h4>충전하기</h4>
+				
+				<table class="table">
+				  <thead>
+				    <tr>
+				      <th scope="col">#</th>
+				      <th scope="col">결제 수단</th>
+				      <th scope="col">충전밤부 포인트 비율</th>
+				    </tr>
+				  </thead>
+				  <tbody class="table-group-divider">
+				    <tr>
+				      <th scope="row">1</th>
+				      <td>계좌이체</td>
+				      <td>130%</td>
+				    </tr>
+				    <tr>
+				      <th scope="row">2</th>
+				      <td>무통장</td>
+				      <td>130%</td>
+				    </tr>
+				    <tr>
+				      <th scope="row">3</th>
+				      <td>신용카드</td>
+				      <td>120%</td>
+				    </tr>
+				    <tr>
+				      <th scope="row">4</th>
+				      <td>상품권</td>
+				      <td>110%</td>
+				    </tr>
+				    <tr>
+				      <th scope="row">5</th>
+				      <td>휴대폰</td>
+				      <td>110%</td>
+				    </tr>
+				    <tr>
+				      <th scope="row">6</th>
+				      <td>카드사 포인트</td>
+				      <td>100%</td>
+				    </tr>
+				  </tbody>
+				</table>
+				
+			
+			
+			
+				<div class="input-side">
+
+					<input type="hidden" id = "coupon-status" name="couponStatus" value="0">								
+					<!-- 아이디	: <input type="text" id = "charger-id" name="chargerId" required="required"><p/> -->
+					총밤부테스트용아이디	: <input type="text" id = "charger-id" name="chargerId" value="qyyswylcav4"><p/>
+					
+					<!-- 충전 금액	: <input type="number" id = "charge-money" name="chargeMoney" required="required" value="5000" onchange="minMoneyChk()"><p/> -->
+					<!-- 충전 금액 함수미적용	: <input type="number" id = "charge-money" name="chargeMoney" required="required" value="5000" step="1000"><p/> -->	 <!-- step 입력 가능한 값의 단위를 지정 -->
+					충전 금액 온블러	: <input type="number" id = "charge-money" name="chargeMoney" required="required" value="5000" onblur="formatNumber()"><p/>
+					<!-- 충전 금액(최소미적용)	: <input type="number" id = "charge-money" name="chargeMoney" required="required" value="5000"><p/> -->
+					<!-- min="5000"이 적용되지 않는 이유 찾기 -->
+					
+					쿠폰 입력	: <input type="text" id = "coupon-no" name="couponNo" onchange="couponInsertOnChange()" placeholder="쿠폰입력">
+					<button type="button" id="check-coupon" value="쿠폰검사" onclick="couponCheck()">쿠폰검사</button><br/>
+		   			<div><span id="result-check-coupon" style="font-size:12px;"></span></div>
+				                
+					
+				</div>
+			
+	   			<!-- 적용 결제 금액 : <input type="number" id = "real-charge-money" name="realChargeMoney" value="5000" readonly="readonly"> -->
+				
+				<div class="payment-method">
+					<input type="radio" id="payment-method-radio1" name="paymentMethod" value="휴대폰" checked="checked">
+					<label for="payment-method-radio1">휴대폰</label>
+					<input type="radio" id="payment-method-radio2" name="paymentMethod" value="상품권">
+					<label for="payment-method-radio2">상품권</label>
+					<input type="radio" id="payment-method-radio3" name="paymentMethod" value="무통장">
+					<label for="payment-method-radio3">무통장</label><p/>
+					<input type="radio" id="payment-method-radio4" name="paymentMethod" value="신용카드">
+					<label for="payment-method-radio4">신용카드</label>
+					<input type="radio" id="payment-method-radio5" name="paymentMethod" value="카드사 포인트">
+					<label for="payment-method-radio5">카드사 포인트</label>
+					<input type="radio" id="payment-method-radio6" name="paymentMethod" value="계좌이체">
+					<label for="payment-method-radio6">계좌이체</label>
+				</div>
+				
+				<!-- <button id="request-pay-button"  onclick="requestPay()">결제하기</button><br/> -->
+			
+				<!-- 
+				<h6>총 보유 Bamboo</h6>
+				<p id="totalBamboo"></p>
+				 -->
+				
+				<!-- model.addAttribute("chargeFailMsg", "충전실패 다시 시도해주세요"); -->
+			<table>
+			  <tr th:if="${chargeFailMsg != null}">
+			    <td th:text="${chargeFailMsg}"></td>
+			  </tr>
+			</table>
+			
+		</div>
+		
+		<div id="right-sidebar">
+			<h2>결제하기</h2>
+			<ul>
+			    <li>
+			    	<h6>총 보유 Bamboo</h6>
+					<p id="totalBamboo"></p>
+			    </li>
+			    <li>
+			    	할인 받은 금액 : <input type="number" id = "coupon-discount" name="couponDiscount" value="0" readonly="readonly">
+			    </li>
+			    <li>
+			    	적용 결제 금액 : <input type="number" id = "real-charge-money" name="realChargeMoney" value="5000" readonly="readonly">
+			    </li>
+			    <li>
+			    	충전 예상 밤부 : <input type="number" id = "estimated-bamboo" name="estimatedBamboo" value="0" readonly="readonly">
+			    </li>
+			    <li>
+			    	<button id="request-pay-button"  onclick="requestPay()">결제하기</button><br/>
+			    </li>
+		    </ul>
+		    
+		</div>   
+		
+	</div>
+	
+	<div id="recharge-details-container">
+		<h2>결제내역</h2>
+	
+	</div>
+	<h1>============================================================================</h1>
+	<button class="printBtn" id="printA">A</button>
+	<button class="printBtn" id="printB">B</button>
+	<div id="print">
+	</div>
+	
+
+<script type="text/javascript">
+	
+		// 충전금액 입력시 -> 실제 결제 금액 자동 완성
+		// 마지막에 입력 시 입력되게 한다.
+		//$("#charge-money").change(function(){
+		//    $('#real-charge-money').val($(this).val());
+		//});
+		
+		
+		// 충전금액 입력시 -> 실제 결제 금액 자동 완성
+ 		/* $("#charge-money").change(function(){
+		    $('#real-charge-money').val($(this).val() - ($(this).val()%1000));
+		}); */
+		
+		// 금액을 1,000단위로 변환
+		function formatNumber(){
+			let input = $('#charge-money').val();
+			if(!isNaN(input)){
+				input = Math.floor(input/1000) * 1000;
+				$('#charge-money').val(input);
+				$('#real-charge-money').val(input);
+			} else {
+				input.val() = '';
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
+		function formatNumber() {
+			  var input = $('#charge-money').val();
+			  if (!isNaN(input)) {
+				  //num = Math.floor(num/1000) * 1000; // 1000단위로 내림
+				  //num = Math.floor(num/10000) * 10000; // 10000단위로 내림
+				  input = Math.floor(input / 1000) * 1000; // 입력값 뒤에 000을 붙여줌
+			      $('#charge-money').val(input); // 쉼표 추가하여 출력
+			  } else {
+			    input.val(''); // 입력값이 숫자가 아닐 경우 초기화
+			  }
+			}*/
+
+		function formatNumber(){
+			let input = $('#charge-money').val();
+			if(!isNaN(input)){
+				input = Math.floor(input/1000) * 1000;
+				$('#charge-money').val(input);
+			} else {
+				input.val() = '';
+			}
+		}
+			
+			
+		/* script에 text로 붙엿을때, 함수 이용 */
+		/* $(document).on("blur", "#charge-money", function(){
+			let input = $('#charge-money').val();
+			formatNumber(input);
+		});
+					
+		function formatNumber(input){
+			console.log(input);
+			if(!isNaN(input)){
+				console.log("isnan");
+				input = Math.floor(input/1000) * 1000;
+				$('#charge-money').val(input);
+				console.log(input);
+			} else {
+				input.val() = '';
+			}
+		} */	
+			
+		
+
+		
+		$(function(){
+			function updateEstimatedBamboo(){
+				
+				let chargeMoney = $('#charge-money').val();
+				let paymentMethod = $('input[name="paymentMethod"]:checked').val();
+				let ratio = 1.0;
+				let estimatedBamboo = 0;
+				
+				if (paymentMethod == '휴대폰') {
+					ratio = 1.1;
+				} else if (paymentMethod == '상품권') {
+					ratio = 1.1;
+				} else if (paymentMethod == '무통장') { // 가상계좌 vbank
+					ratio = 1.3;
+				} else if (paymentMethod == '신용카드') {
+					ratio = 1.2;
+				} else if (paymentMethod == '카드사 포인트') {
+					ratio = 1.0;
+				} else if (paymentMethod == '계좌이체') {
+					ratio = 1.3;
+				}
+				
+				estimatedBamboo = Math.floor(chargeMoney * ratio / 1000);
+				$('#estimated-bamboo').val(estimatedBamboo);
+				
+			}
+			
+			// 변경 이벤트 추가
+			$('#charge-money').on('input', updateEstimatedBamboo);				// 충전 금액 입력창에 input 이벤트를 등록. 사용자가 입력할 때마다 updateEstimatedBamboo() 함수가 실행
+			$('input[name="paymentMethod"]').change(updateEstimatedBamboo);		// 결제 수단 라디오 버튼에 change 이벤트를 등록. 사용자가 결제 수단을 변경할 때마다 updateEstimatedBamboo() 함수가 실행
+
+			// 초기화
+			updateEstimatedBamboo();											// 페이지가 로드될 때 실행, 포인트를 계산하여 화면에 출력
+		});
+
+		
+		// 최소 5000원 이하 입력금액 체크
+		function minMoneyChk() {
+			//alert('minMoneyChk Start..') 
+			var chargeMoney = $("#charge-money").val(); 
+			//alert('minMoneyChk 1. chargeMoney->'+chargeMoney);
+			if(chargeMoney < '5000' || chargeMoney == null)  {
+				//alert('if minMoneyChk 2. chargeMoney->'+chargeMoney);
+				alert("최소입력금액 5000원입니다.");
+		    	// chargeMoney 5000 강제 셋팅
+				$('#charge-money').val('5000');
+			} 	
+		}
+		
+		
+		// 쿠폰입력 onchange 쿠폰입력시 사용가능쿠폰 자동 검증 후 결제기능 노출
+		function couponInsertOnChange(){
+			var couponNo = $("#coupon-no").val(); 
+			if(couponNo = '' || couponNo == null)  {
+		    	// 결제하기 Button 나타나기
+		    	$("#request-pay-button").show();
+			} else {
+		    	// 결제하기 Button 숨기기
+		    	alert("쿠폰검사를 클릭해주세요");
+		    	$("#request-pay-button").hide();
+			}
+	 	}
+
+
+		//사용가능한 쿠폰 validation 
+		function couponCheck() {
+			let couponNo = $("#coupon-no").val();
+			let chargerId = $("#charger-id").val();
+			$.ajax({
+				type: 'GET',
+		  		url: '/charge/check-available-coupon?id=' + chargerId + '&couponNo=' + couponNo,
+		  		dataType: 'json',															
+		  		success: function(couponUseDto) {
+					console.log(couponUseDto.result);
+			        if (couponUseDto.result == '1') {
+			          $('#result-check-coupon').html('사용 가능한 쿠폰입니다. 쿠폰이 적용되었습니다.').css('color', 'green');
+			          $('#coupon-status').val('1');
+			          // document.getElementById("coupon-no").readOnly = true; ->
+			          $('#coupon-no').attr('readonly',true);
+			  	      // 결제하기 Button 나타나기
+			  	      $("#request-pay-button").show();
+			  	      
+			  	      //  직접 입력한 금액에서 json으로 받아온 쿠폰의 값을 차감
+			  	      //var chargeMoney =   $('#charge-money').val();
+			  	      var chargeMoney =   $('#real-charge-money').val();
+			  	      var chargePaymentMoney = chargeMoney-couponUseDto.couponValue;
+			  	      
+			  	      // 차감한 값을 다시 chargeMoney에 할당, 할당
+			  	      //$('#charge-money').val(chargePaymentMoney);
+			  	      $('#real-charge-money').val(chargePaymentMoney);
+			  	      
+			  	      // 가져온 쿠폰액을 #coupon-discount에 할당
+			  	      $('#coupon-discount').val(couponUseDto.couponValue);
+			  	      
+			  	      $('#check-coupon').prop('disabled', true);
+			  	      $('#charge-money').prop('disabled', true);
+		
+			        } else {
+				      $('#coupon-status').val('0');
+			          $('#result-check-coupon').html('사용이 불가능한 쿠폰입니다.').css('color', 'red');
+			          $('#coupon-no').val('').trigger('focus');
+			          $('#coupon-status').val('').trigger('focus');
+			     	  // 결제하기 Button 숨기기
+			  	      $("#request-pay-button").hide();
+			          
+			       }
+		       },
+		       error: function() {
+		         alert("success 잘못된 접근입니다");
+		       }
+			});  
+		}
+		
+	
+//IMP
+// IMP 객체를 초기화 ***************** 식별코드 노출 금지
+
+		var IMP = window.IMP; 			// 생략 가능
+			IMP.init("imp44174547"); 	// 예: 가맹점 식별코드 imp00000000a
+	
+   
+	    function requestPay() {
+				
+	    	let subchargeMoney = $('#charge-money').val();			// scrip를 뚫고 최저금액에 접근했을때 예외
+	    	if (subchargeMoney < 5000) {
+	    		alert("최소 입력 금액은 5000원 이상이어야 합니다.");
+	    	    console.error("Error: 충전 금액은 5000원 이상이어야 합니다.");
+	    	    return;
+	    	}
+	    	
+	    	let pay_method = ''; // pay_method 초기화
+	    	let chargerNo = '';  // chargerNo 초기화
+	    	let paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+	    	//let chargeMoney = $('#charge-money').val();
+	    	let chargeMoney = $('#real-charge-money').val();
+	    	let chargerId = $('#charger-id').val();
+	    	let couponNo = $('#coupon-no').val();
+	    	//let paymentMethod = $('input[name="paymentMethod"]:checked').val();
+			
+			console.log("구매자 : " + chargerId);
+			console.log("충전 금액 : " + chargeMoney);
+			console.log("쿠폰 번호 : " + chargerNo);
+			console.log("결제 방법 : " + $("input[name='paymentMethod']:checked").val());
+			
+			if (paymentMethod == '휴대폰') {
+				pgSelect = 'danal';			    
+			    pay_method = 'phone';
+			} else if (paymentMethod == '상품권') {
+				pgSelect = 'tosspayments';
+			    pay_method = 'cultureland';
+			} else if (paymentMethod == '무통장') {	// 가상계좌 vbank
+				pgSelect = 'tosspayments';
+			    pay_method = 'vbank';
+			} else if (paymentMethod == '신용카드') {
+				pgSelect = 'nice';
+			    pay_method = 'card';
+			} else if (paymentMethod == '카드사 포인트') {
+				pgSelect = 'nice';
+			    pay_method = 'card';
+			} else if (paymentMethod == '계좌이체') {
+				pgSelect = 'nice';
+			    pay_method = 'trans';
+			}
+			
+	       IMP.request_pay({
+	           //pg : 'tosspayments', 'danal', 'nice'		// PG사 선택
+	           //pg : 'nice',								// 이런 방식으로 선택 PG사 선택
+	           pg : pgSelect,								
+	           pay_method : pay_method, 					// 지불 수단
+	           //merchant_uid: "order_id_1667634130186", 	// 주문번호  
+	           name : 'panda충전',							// 상품 명
+	           amount : chargeMoney,						// 가격 숫자 타입
+	           buyer_name : chargerId,
+	           buyer_email : '',
+	           buyer_tel : '',
+	           buyer_addr : '',
+	           buyer_postcode : '',
+	           
+	           custom_data : couponNo
+	           //couponNo : couponNo
+	       }, function (rsp) { 								// callback
+	           if (rsp.success) {
+	                //console.log('rsp', rsp);
+	                console.log("rsp : ", rsp);
+	                alert("rsp.success 결제가 완료되었습니다.");
+	                
+	                chargeSubmit(rsp);
+	                
+	           } else {
+	               console.log('rsp', rsp);
+	               alert("rsp.fail 결제가 취소되었습니다.");
+	           }
+	       });
+		}
+	
+
+		function chargeSubmit(rsp) { 
+			console.log("chargeSubmit 시작");
+			
+			let chargerId = rsp.buyer_name; // val();는 입력된 값을 반환, val은 함수 자체를 반환
+			let couponNo = rsp.custom_data;
+			//let chargeMoney = rsp.paid_amount;
+			let chargeMoney = $('#charge-money').val();
+		    let paymentMethod = rsp.pay_method;
+		    
+		    if (paymentMethod === 'phone') {
+		    	paymentMethod = '휴대폰';
+			} else if (paymentMethod === 'cultureland') {
+				paymentMethod = '상품권';
+			} else if (paymentMethod === 'trans') {  
+				paymentMethod = '무통장';
+			} else if (paymentMethod === 'card') {
+				paymentMethod = '신용카드';
+			} else if (paymentMethod === '카드사 포인트card') {
+				paymentMethod = '카드사 포인트';
+			} else if (paymentMethod === 'trans') {
+				paymentMethod = '계좌이체';
+			}
+		    
+		    console.log("rsp.success chargeSubmit chargerId : ", chargerId);
+			console.log("rsp.success chargeSubmit couponNo : ", couponNo);
+			console.log("rsp.success chargeSubmit chargeMoney : ", chargeMoney);
+			console.log("rsp.success chargeSubmit pay_method : ", paymentMethod);
+			
+		    if ($('#coupon-status').val() == '1') {
+		    	alert("쿠폰이 적용되었습니다.");
+		        
+		        $.ajax({
+		            url: "/charge/charge", 
+		            type: "POST", 
+		            data: JSON.stringify({
+		            						chargerId 	  : chargerId,	// 요청 본문에 담길 데이터를 지정 , 여기서는 JSON으로 지정
+		            						couponNo	  : couponNo,
+		            						chargeMoney	  : chargeMoney,
+		            						paymentMethod : paymentMethod
+						}),
+					contentType: 'application/JSON',					// 요청 본문에 담긴 데이터의 형식, 보내는 DATA	
+					dataType: "json", 									// 데이터 타입 지정, 결과로 받을 데이터의 형식, 받는 DATA
+		            success: function(data) { 							// 요청 성공시 실행할 콜백 함수
+		                console.log("chargeSubmit() AJAX 요청 성공: ", data);
+		                //location.href = "/charge/test"; // 성공시 페이지 이동
+		            },
+		            error: function(data) { 							// 요청 실패시 실행할 콜백 함수
+		                console.error("chargeSubmit() AJAX 요청 실패: ");
+		                alert("충전 실패 다시 시도해주세요");
+		                //location.href = "/charge/charge";
+		            }
+		        });
+		        
+		    } else {
+		        if (couponNo == null && chargeMoney > '0') {
+		        	console.log("chargeSubmit else 시작");
+		              
+		   	        $.ajax({
+		                   url: "/charge/charge", // 요청 보낼 URL
+		                   type: "POST", // 요청 방식
+		                   data: JSON.stringify({
+		                   						chargerId 	  : chargerId,		// 요청 본문에 담길 데이터를 지정 , 여기서는 JSON으로 지정
+		                   						chargeMoney	  : chargeMoney,
+		                   						paymentMethod : paymentMethod
+							}),
+							contentType: 'application/JSON',					// 요청 본문에 담긴 데이터의 형식, 보내는 DATA	
+							dataType: "json", 									// 데이터 타입 지정, 결과로 받을 데이터의 형식, 받는 DATA
+		                    success: function(data) { 							// 요청 성공시 실행할 콜백 함수
+		                        console.log("chargeSubmit() AJAX 요청 성공: ", data);
+		                        //location.href = "/charge/test"; // 성공시 페이지 이동
+		                    },
+		                    error: function() { // 요청 실패시 실행할 콜백 함수
+		                   	    console.error("chargeSubmit() AJAX 요청 실패: ");
+		                        alert("충전 실패 다시 시도해주세요");
+		                        //location.href = "/charge/charge";
+		                    },
+		                   
+		                    beforeSend: function() {						// ajax 요청 전에 실행될 함수
+			                    console.log("ajax chargerId : ", chargerId);
+			           		    console.log("ajax chargeMoney : ", chargeMoney);
+			           		    console.log("ajax couponNo : ", couponNo);
+			           		    console.log("ajax pay_method : ", paymentMethod);
+		                    }
+		               });
+		               
+		        } else {
+		            alert("chargeSubmit() 쿠폰검사를 클릭해주세요");
+		            return false;
+			    }
+			}
+		
+		}
+
+//		총 보유 밤부		
+//		$(document).ready()		
+		$(function(){
+			let memberId = $('#charger-id').val();
+			console.log("$(document).ready memberId : " + memberId);
+			$.ajax({
+				url: "/charge/members/" + memberId + "/total-bamboo",
+				type: "GET",
+				dataType: "text",
+				success: function(foundTotalBambooStr){
+					$('#charger-id').text(foundTotalBambooStr);
+					let readySuccess = $('#charger-id').text(foundTotalBambooStr);
+					console.log("Ajax success End foundTotalBambooStr : " + foundTotalBambooStr);
+				//	$('#totalBamboo').val(foundTotalBambooStr);		// input tag용
+					$('#totalBamboo').text(foundTotalBambooStr);	// p tag용
+				},
+				error: function(){
+					console.error("AJAX 요청 실패: ");
+				}
+					
+			});    
+		});
+		// 확인용 : http://localhost:8888/charge/members/qyyswylcav4/total-bamboo
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
+		// append 		id="charge-container-btn"  id="recharge-details-btn"  id="charge-container"	id="recharge-details-container
+		// id="content-print"
+		
+		
+		
+		/*
+		//hide 이용
+		$(document).ready(function() {
+			  // 버튼 클릭 이벤트 등록
+			  $('#charge-container-btn').click(function() {
+			    // ajax 호출
+			    $.ajax({
+			      type: 'GET',
+			      url: '/charge/', 							// 서버 측 코드가 처리하는 URL
+			      success: function(data) {
+			        // 받아온 데이터를 charge-container div에 삽입
+			        $('#charge-container').show();  // #charge-container를 보이도록 설정
+			        $('#recharge-details-container').hide();  // #recharge-details-container를 숨기도록 설정
+			      },
+			      error: function(error) {
+			        // 에러 처리
+			        console.log('ajax error:', error);
+			      }
+			    });
+			  });
+
+			  // 버튼 클릭 이벤트 등록
+			  $('#recharge-details-btn').click(function() {
+			    // ajax 호출
+			    $.ajax({
+			      type: 'GET',
+			      url: '/charge/', // 서버 측 코드가 처리하는 URL
+			      success: function(data) {
+			        // 받아온 데이터를 recharge-details-container div에 삽입
+			        $('#recharge-details-container').show();  // #recharge-details-container를 보이도록 설정
+			        $('#charge-container').hide();  // #charge-container를 숨기도록 설정
+			      },
+			      error: function(error) {
+			        // 에러 처리
+			        console.log('ajax error:', error);
+			      }
+			    });
+			  });
+			});
+			*/
+			
+		////
+		
+		function printToA(){
+			 let text = 
+				 		/* charge-container */
+						'<div id="charge-container">' +	
+						
+			 				/* charge-contents */
+							'<div id="charge-contents">' +
+								
+								'<h4>충전하기</h4>' +
+									
+									'<table class="table">' +
+									  '<thead>' +
+									    '<tr>' +
+									      '<th scope="col">#</th>' +
+									      '<th scope="col">결제 수단</th>' +
+									      '<th scope="col">충전밤부 포인트 비율</th>' +
+									    '</tr>' +
+									  '</thead>' +
+									  '<tbody class="table-group-divider">' +
+									    '<tr>' +
+									      '<th scope="row">1</th>' +
+									      '<td>계좌이체</td>' +
+									      '<td>130%</td>' +
+									    '</tr>' + 
+									    '<tr>' +
+									      '<th scope="row">2</th>' +
+									      '<td>무통장</td>' +
+									      '<td>130%</td>' +
+									    '</tr>' +
+									    '<tr>' +
+									      '<th scope="row">3</th>' +
+									      '<td>신용카드</td>' +
+									      '<td>120%</td>' +
+									    '</tr>' +
+									    '<tr>' +
+									      '<th scope="row">4</th>' +
+									      '<td>상품권</td>' +
+									      '<td>110%</td>' +
+									    '</tr>' +
+									    '<tr>' +
+									      '<th scope="row">5</th>' +
+									      '<td>휴대폰</td>' +
+									      '<td>110%</td>' +
+									    '</tr>' +
+									    '<tr>' +
+									      '<th scope="row">6</th>' +
+									      '<td>카드사 포인트</td>' +
+									      '<td>100%</td>' +
+									    '</tr>' +
+									  '</tbody>' +
+									'</table>' +
+								
+									/* class="input-side" */
+									'<div class="input-side">' +
+					
+										'<input type="hidden" id = "coupon-status" name="couponStatus" value="0">' +								
+										/* '아이디	: <input type="text" id = "charger-id" name="chargerId" required="required"><p/>' + */
+										'총밤부테스트용아이디	: <input type="text" id = "charger-id" name="chargerId" value="qyyswylcav4"><p/>' +
+										
+										/* '충전 금액	: <input type="number" id = "charge-money" name="chargeMoney" required="required" value="5000" onchange="minMoneyChk()"><p/>' + */
+										/* '충전 금액 함수미적용	: <input type="number" id = "charge-money" name="chargeMoney" required="required" value="5000" step="1000"><p/>' + */	 /* step 입력 가능한 값의 단위를 지정 */
+										'충전 금액 온블러	: <input type="number" id = "charge-money" name="chargeMoney" required="required" value="5000" onblur="formatNumber()"><p/>' +
+										/* 충전 금액(최소미적용)	: <input type="number" id = "charge-money" name="chargeMoney" required="required" value="5000"><p/> */
+										/* min="5000"이 적용되지 않는 이유 찾기 */
+										
+										'쿠폰 입력	: <input type="text" id = "coupon-no" name="couponNo" onchange="couponInsertOnChange()" placeholder="쿠폰입력">' +
+										'<button type="button" id="check-coupon" value="쿠폰검사" onclick="couponCheck()">쿠폰검사</button><br/>' +
+							   			'<div><span id="result-check-coupon" style="font-size:12px;"></span></div>' +
+									                
+										
+									'</div>' +	/* /class="input-side" */
+								
+						   			/* 적용 결제 금액 : <input type="number" id = "real-charge-money" name="realChargeMoney" value="5000" readonly="readonly"> */
+									
+									'<div class="payment-method">' +
+										'<input type="radio" id="payment-method-radio1" name="paymentMethod" value="휴대폰" checked="checked">' +
+										'<label for="payment-method-radio1">휴대폰</label>' +
+										'<input type="radio" id="payment-method-radio2" name="paymentMethod" value="상품권">' +
+										'<label for="payment-method-radio2">상품권</label>' +
+										'<input type="radio" id="payment-method-radio3" name="paymentMethod" value="무통장">' +
+										'<label for="payment-method-radio3">무통장</label><p/>' +
+										'<input type="radio" id="payment-method-radio4" name="paymentMethod" value="신용카드">' +
+										'<label for="payment-method-radio4">신용카드</label>' +
+										'<input type="radio" id="payment-method-radio5" name="paymentMethod" value="카드사 포인트">' +
+										'<label for="payment-method-radio5">카드사 포인트</label>' +
+										'<input type="radio" id="payment-method-radio6" name="paymentMethod" value="계좌이체">' +
+										'<label for="payment-method-radio6">계좌이체</label>' +
+									'</div>' +
+									
+									/* <button id="request-pay-button"  onclick="requestPay()">결제하기</button><br/> */
+								
+									/* 
+									<h6>총 보유 Bamboo</h6>
+									<p id="totalBamboo"></p>
+									 */
+									
+									/* model.addAttribute("chargeFailMsg", "충전실패 다시 시도해주세요"); */
+								'<table>' +
+								  '<tr th:if="${chargeFailMsg != null}">' +
+								    '<td th:text="${chargeFailMsg}"></td>' +
+								  '</tr>' +
+								'</table>' +
+								
+							'</div>' + 	/*	/charge-contents */
+							
+							'<div id="right-sidebar">' + /*	/right-sidebar */
+								'<h2>결제하기</h2>' + 
+								'<ul>' + 
+								    '<li>' + 
+								    	'<h6>총 보유 Bamboo</h6>' + 
+										'<p id="totalBamboo"></p>' +
+								    '</li>' + 
+								    '<li>' + 
+								    	'할인 받은 금액 : <input type="number" id = "coupon-discount" name="couponDiscount" value="0" readonly="readonly">' + 
+								    '</li>' + 
+								    '<li>' + 
+								    	'적용 결제 금액 : <input type="number" id = "real-charge-money" name="realChargeMoney" value="5000" readonly="readonly">' + 
+								    '</li>' +  
+								    '<li>' + 
+								    	'충전 예상 밤부 : <input type="number" id = "estimated-bamboo" name="estimatedBamboo" value="0" readonly="readonly">' + 
+								    '</li>' + 
+								    '<li>' + 
+								    	'<button id="request-pay-button"  onclick="requestPay()">결제하기</button><br/>' + 
+								    '</li>' + 
+							    '</ul>' + 
+							    
+							'</div>' +  /*/charge-contents */   
+						
+						'</div>'   /*/charge-container */
+					
+			 $('#print').append(text);
+		}
+		
+		////
+			
+		$(document).on("click", "#printA", function(){
+			$('#print').empty();
+			printToA();
+		});			
+		
+		
+
+		function printToB(){
+			 let text = 
+				 		'<div id="recharge-details-container">' +
+						'<h2>결제내역</h2>'
+						
+			 $('#print').append(text);
+		}
+
+			
+		/* 	
+		$(document).on("click", "#printA", function(){
+			$.ajax({
+				url : "/charge/check-available-coupon",
+				type : "get",
+				data : {couponNo : "YYFUTU"},
+				success : function(couponDto){
+					$('#print').empty();
+					console.log(couponDto);
+					let couponValue = couponDto.couponValue;
+					printToA(couponValue);
+				} 
+				
+			});
+		});
+
+
+		$(document).on("click", "#printB", function(){
+			$('#print').empty();
+			printToB();
+		});
+		
+		 */
+		/*
+		$(document).on("click", "#printB", function(){
+			$.ajax({
+				url : "/charge/check-available-coupon",
+				type : "get",
+				success : function(couponDto){
+					$('#print').empty();
+					printToB();
+				} 
+				
+			});
+		});
+
+		*/
+		
+		
+		
+		
+		
+		
+		
+ 	 
+	
+</script>
+</body>
+</html>

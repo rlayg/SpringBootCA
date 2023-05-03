@@ -26,6 +26,7 @@
 				required="required"> </td></tr>
 			<tr><th>부서위치</th><td><input type="text" name="loc" 
 				required="required"></td></tr>
+			
 		
 			<tr><td colspan="2">
 			<input type="submit" value="확인"></td></tr>

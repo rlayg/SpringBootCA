@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+		
+	.navigation-menu ul {
+	  padding: 10px;
+	  margin-left: 15%;
+	  margin-right: 15%;
+	  margin-bottom: 20px;
+	  font-weight: bold;
+	}
+	.navigation-menu ul {   
+	    padding: 0;
+	    overflow: hidden;
+	    background-color: #4B4B4B;
+	    text-align: center;
+	}
+	.navigation-menu li a {
+	    display: inline-block;
+	    color: white;
+	    text-align: center;
+	    padding: 10px 20px;
+	    text-decoration: none;
+	}
+	
+	li a:hover {
+	    text-decoration: underline;
+	}
+	
+	#navigation ul
+	{
+		font-size: 1.2em;
+	}
+	#navigation ul li
+	{
+	    display: inline;
+		color:white;
+	}
+	#navigation li:not(:first-child):before {
+	    content: " | ";
+	}
+	
+	
+	#container {
+		width: 960px;
+		margin: 0 auto;
+	}
+	
+	#container * {
+	  background-color: gray;
+	}
+	
+	
+	#contents {
+		border : 1px solid;
+		width: 490px;
+		float: left;
+		margin-left: 15%;
+		margin-bottom: 20px;
+		
+	}
+	#right-sidebar {
+	border : 1px solid;
+		width: 150px;
+		float: right;
+		margin-bottom: 20px;
+	}	
+	
+	
+</style>
+<script type="text/javascript">
+	function couponNoDupchk()
+
+
+
+</script>
+</head>
+<body>
+	
+	<div class="navigation-menu">
+		<nav id="navigation">
+		  <ul>
+		    <li><a href="/sell">재능판매</a></li>
+		    <li><a href="/pruchase">재능구매</a></li>
+		    <li><a href="/trade">거래관리</a></li>
+		    <li><a href="/charge">충전/내역</a></li>
+		    <li><a href="/myPage">마이페이지</a></li>
+		  </ul>
+		</nav>
+	</div>
+
+	
+	
+</body>
+</html>

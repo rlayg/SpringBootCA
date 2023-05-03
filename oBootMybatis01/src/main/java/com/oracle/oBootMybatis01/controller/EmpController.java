@@ -288,9 +288,9 @@ public class EmpController {
 	@RequestMapping(value = "mailTransport")
 	public String mailTransport(HttpServletRequest request, Model model) {
 		System.out.println("EmpController mailTransport Start...");
-		String tomail = "rlayg1992@naver.com";	// 받는 사람 메일
+		String tomail = "rla@naver.com";	// 받는 사람 메일
 		System.out.println(tomail);
-		String setfrom = "rlamail1992@gmail.com";
+		String setfrom = "rla2@gmail.com";
 		String title = "mailTransprot 입니다";	// 제목
 		
 		try {
